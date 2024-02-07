@@ -1,0 +1,24 @@
+version: '2.5'
+
+services:
+  mysqldb: 
+    image: mysql:8.0.33
+    hostname: $DB_HOST
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_DATABASE
+    expose:
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT  
+   # ports:
+    #  - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+
+#app:
+ # build: .
+  #depends_on:
+  #  - mysqldb
+  #links:
+  #  - mysqldb        
+  #ports:
+  #  - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
