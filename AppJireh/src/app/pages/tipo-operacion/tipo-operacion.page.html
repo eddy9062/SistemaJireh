@@ -1,0 +1,50 @@
+<app-header>Tipo</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid class="ion-no-padding" color="primary">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" class="ion-no-padding">
+        <ion-searchbar mode="ios" placeholder="Buscar Tipos Operación" animated inputmode="text" [debounce]="300"
+          (ionInput)="onSearch( $event )">
+        </ion-searchbar>
+
+          <ion-list class="ion-no-padding">
+            <ion-list-header mode="ios">
+              <ion-label class="mt-0">Tipos de Operaciones</ion-label>
+            </ion-list-header>
+
+          <ion-item-sliding *ngFor="let item of _listTipoOpera | filtro:_textoBuscar:'des_tipo'">
+            <ion-item>
+              <ion-label>
+                <h3>{{item.des_tipo}}</h3>
+              </ion-label>
+            </ion-item>
+
+            <ion-item-options>
+              <ion-item-option color="light" expandable="true" (click)="onUpdate(item)">
+                <ion-icon slot="start" style="color: rgba(9, 146, 5, 0.685); font-size: 26px"
+                  name="create-outline"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="light" expandable="true" (click)="onDelete(item)">
+                <ion-icon slot="start" style="color: red; font-size: 24px" name="trash-sharp"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="creaTipoOpera()">
+    <ion-fab-button>
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,70 @@
+<app-header>Articulos</app-header>
+
+<ion-content class="ion-padding">
+    <ion-grid class="ion-no-padding" color="primary">
+        <ion-row class="ion-justify-content-center">
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" class="ion-no-padding">
+                <form [formGroup]="formArticulo" (ngSubmit)="guardar()" mode="ios">
+                    <ion-item>
+                        <ion-select aria-label="Fruit" formControlName="cat_articulo" interface="primary" label="Categoria Producto" labelPlacement="floating" placeholder="Select Categoría">
+                            <ion-select-option *ngFor="let item of _listCategoria" [value]="item.cat_articulo">{{ item.descripcion }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" fill="outline" formControlName="cod_articulo" label="Codigo de artículo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" fill="outline" formControlName="descripcion" label="Descripción de artículo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="number" formControlName="precio_compra" label="Precio Compra" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="number" formControlName="existencia" label="Existencia Articulo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" formControlName="obs" label="Observaciones" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-button [disabled]="!formArticulo.valid" expand="block" color="primary" (click)="addDet()">
+                        add Detalle Producto
+                    </ion-button>
+                    <div class="mu-3">
+                        <ion-row class="header-row">
+                            <ion-col size="4">DESCRIPCION</ion-col>
+                            <ion-col size="2">CANT.</ion-col>
+                            <ion-col size="2">PRECIO</ion-col>
+                            <ion-col size="2">CANT. MAYOREO</ion-col>
+                            <ion-col size="2">PRECIO</ion-col>
+                        </ion-row>
+                        <!--
+                    <ion-grid [fixed]="true">
+                            <ion-row *ngFor="let item_det of formArticulo.get('det').controls; let i = index" [formGroup]="item_det">
+                                <ion-col>{{item_det.descripcion}}</ion-col>
+                                <ion-col>{{item_det.unidades}}</ion-col>
+                                <ion-col>{{item_det.precio_venta}}</ion-col>
+                                <ion-col>{{item_det.can_mayoreo}}</ion-col>
+                                <ion-col>{{item_det.precio_mayoreo}}</ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        -->
+                        <ion-grid [fixed]="true">
+                            <ion-row *ngFor="let item of _listDetalle">
+                                <ion-col>{{item.descripcion}}</ion-col>
+                                <ion-col>{{item.unidades}}</ion-col>
+                                <ion-col>{{item.precio_venta}}</ion-col>
+                                <ion-col>{{item.cant_mayoreo}}</ion-col>
+                                <ion-col>{{item.precio_mayoreo}}</ion-col>
+                            </ion-row>
+                        </ion-grid>
+
+                    </div>
+                    <!--[disabled]="!FormArticulo.valid" -->
+                    <ion-button expand="block" color="primary" type="submit">
+                        Guardar
+                    </ion-button>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

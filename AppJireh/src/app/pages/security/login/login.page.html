@@ -1,0 +1,122 @@
+<div class="header-container">
+  <ion-header class="ion-no-border">
+    <ion-toolbar color="primary">
+      <ion-title>Iniciar Sesión</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</div>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-xs="3" size-sm="2" size-md="2" size-lg="1">
+        <ion-img style="display: block; margin: auto;" src="assets/images/logo.png"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-sm="12" size-md="6" size-lg="4">
+        <ion-label class="ion-text-center">
+          <h1>Activos Fijos</h1>
+        </ion-label>
+        <!--<h2 class="ion-padding" style="text-align: center; margin: 0; padding-top: 0 !important;">
+          <strong>
+            Transportes
+          </strong>
+        </h2>-->
+        <br>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <!--
+          <ion-item>
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input color="texto" placeholder="Ingrese su usuario" [clearInput]="true"
+              formControlName="usuario"></ion-input>
+            <ion-icon slot="end" name="person-outline" class="custom-icon"></ion-icon>
+            <ion-note slot="error" *ngIf="usuario?.touched">Debe ingresar el usuario</ion-note>
+          </ion-item>
+          -->
+          <ion-item lines="none">
+            <ion-input formControlName="usuario" [clearInput]="true" labelPlacement="floating" label="Usuario" placeholder="Ingrese su usuario"
+              errorText="Debe ingresar el usuario">
+            </ion-input>
+            <ion-icon slot="end" name="person-outline" class="custom-icon"></ion-icon>
+          </ion-item>
+          <br>
+          <!--
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input #pass placeholder="Ingrese su contraseña" [clearInput]="true" type="password"
+              formControlName="password">
+            </ion-input>
+            <ion-icon class="custom-icon" slot="end" [hidden]="pass.type == 'password'" name="eye-off-outline"
+              (click)="pass.type = 'password'"></ion-icon>
+            <ion-icon class="custom-icon" slot="end" [hidden]="pass.type == 'text'" name="eye-outline"
+              (click)="pass.type = 'text'"></ion-icon>
+            <ion-note slot="error" *ngIf="password?.touched">Debe ingresar su contraseña</ion-note>
+          </ion-item>
+   -->
+          <ion-item>
+            <ion-input formControlName="password" #pass [clearInput]="true" labelPlacement="floating" label="Contraseña"
+            type="password"
+              placeholder="Ingrese su contraseña">
+            </ion-input >
+            <ion-icon slot="end" name=""></ion-icon>
+        
+            <ion-icon class="custom-icon" slot="end" *ngIf= "pass.type=='password'" name="eye-outline"
+              (click)="pass.type='text'"></ion-icon>
+            
+            <ion-icon class="custom-icon" slot="end" *ngIf= "pass.type=='text'" name="eye-off-outline"
+              (click)="pass.type='password'"></ion-icon>
+
+          </ion-item>
+
+
+          <ion-item lines="none">
+            <!--    <ion-label color="texto">{{tipoRedStr}}</ion-label> -->
+            <ion-toggle labelPlacement="end" color="primary" [enableOnOffLabels]="true" slot="start"
+              formControlName="red" (ionChange)="cambioRed($event)">{{tipoRedStr}}
+            </ion-toggle>
+          </ion-item>
+          <ion-item lines="none" *ngIf="utilsPlatform.isNative()">
+            <!--   <ion-label color="texto">Recordarme?</ion-label> -->
+            <ion-toggle labelPlacement="end" color="primary" [enableOnOffLabels]="true" slot="start"
+              formControlName="recuerdame">Recordarme?</ion-toggle>
+          </ion-item>
+
+          <ion-button type="submit" color="warning" expand="block" [disabled]="!loginForm.valid">Ingresar</ion-button>
+
+
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal #ionModal id="ionModal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]" handleBehavior="cycle">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title color="danger">{{tituloErrores}}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list [inset]="true">
+          <ion-item *ngFor="let error of errores">
+            <p>{{error?.descripcion}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="appVersionStr">
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size=12 style="text-align: center;">
+        <p color="texto">V. {{ appVersionStr }}</p>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

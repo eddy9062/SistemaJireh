@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <!--
+    <ion-buttons slot="end">
+        <ion-button (click)="confirm()" [strong]="true">
+            <ion-icon slot="start" name="save-outline"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    -->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-card mode="ios">
+        <ion-card-header>
+            <ion-card-title>Detalle de Articulos</ion-card-title>
+            <ion-card-subtitle>{{title}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <form [formGroup]="FormDetArticulo" (ngSubmit)="add()">
+                <ion-item>
+                    <ion-input type="text" formControlName="descripcion" label="Descripción del artículo" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="number" formControlName="precio_venta" label="Precio de venta" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="number" formControlName="unidades" label="Unidades por artículo" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="number" formControlName="precio_mayoreo" label="Precio Mayoreo" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-input type="number" formControlName="cant_mayoreo" label="Unidad Minima Mayoreo" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+
+                <!--[disabled]="!FormDetArticulo.valid" -->
+                <ion-button expand="block" color="primary" type="submit">
+                    add
+                </ion-button>
+            </form>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

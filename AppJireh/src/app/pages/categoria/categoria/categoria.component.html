@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-card mode="ios">
+        <ion-card-header>
+            <ion-card-title>Categorias Producto</ion-card-title>
+            <ion-card-subtitle>{{title}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <form [formGroup]="FormCategoria" (ngSubmit)="guardar()">
+                <!--
+            <ion-item>
+                  <ion-select class="block" aria-label="Fruit" formControlName="id_empresa" interface="primary" placeholder="Select empresa">
+                      <ion-select-option *ngFor="let item of _listEmpresa" [value]="item.id">{{ item.nombre }}</ion-select-option>
+                  </ion-select>
+              </ion-item>
+              -->
+                <ion-item>
+                    <ion-input type="text" formControlName="descripcion" label="Descripcion tipo Operación" labelPlacement="floating" placeholder="Enter a valid nombre" [clearInput]="true"></ion-input>
+                </ion-item>
+                <ion-button expand="block" color="primary" type="submit" [disabled]="!FormCategoria.valid">
+                    Guardar
+                </ion-button>
+            </form>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

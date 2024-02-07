@@ -1,0 +1,74 @@
+<app-menu-home></app-menu-home>
+<div class="ion-page" id="main-content">
+    <ion-header class="ion-no-border">
+        <ion-toolbar color="primary">
+            <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <!--<ion-buttons slot="end">
+        <ion-button id="menu-home">
+          <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>-->
+            <ion-title>Inicio</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        PREUBA SDSADASDJSADLJKASNDJ
+
+        <ion-grid color="primary">
+            <ion-row class="ion-justify-content-center">
+                <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+                    <ion-label>
+                        <h1>Modulos</h1>
+                    </ion-label>
+                    <div *ngIf="menu.length <= 0">
+                        <div class="ion-text-center">
+                            <ion-icon name="warning" size="large" color="warning"></ion-icon>
+                            <p>No posee permisos para acceder a los modulos...</p>
+                        </div>
+                    </div>
+                    <ion-grid class="ion-no-padding">
+                        <ion-row>
+                            <ion-col style="padding: 5px;" size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" *ngFor="let menuItem of menu">
+                                <ion-card button class="ion-text-center ion-no-margin ion-padding h-100 " (click)="redirect(menuItem)">
+                                    <ion-avatar style="margin: 0 auto;">
+                                        <img src="./assets/icon/{{menuItem.avatarImage}}" alt="{{menuItem.alt}}" />
+                                    </ion-avatar>
+                                    <ion-label>
+                                        <h3>
+                                            {{menuItem.title}}
+                                        </h3>
+                                    </ion-label>
+                                </ion-card>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </ion-content>
+</div>
+<!--
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong>Ready to create an app?</strong>
+    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  </div>
+</ion-content>
+-->

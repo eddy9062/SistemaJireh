@@ -1,0 +1,7 @@
+{
+  "name": "AppActivos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

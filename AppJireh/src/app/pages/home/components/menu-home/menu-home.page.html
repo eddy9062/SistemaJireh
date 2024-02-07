@@ -1,0 +1,39 @@
+<ion-menu contentId="main-content">
+    <ion-header color="primary" class="ion-no-border">
+        <ion-toolbar color="primary">
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list class="ion-no-padding">
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img src="assets/icon/logo.png">
+                </ion-avatar>
+                <ion-label color="texto">{{nombreUsuario }}</ion-label>
+            </ion-item>
+
+            <ion-item *ngFor="let item of menu" [routerLink]=item.url lines="none" detail="false" button>
+                <ion-icon [name]=item.icono slot="start"></ion-icon>
+                {{item.title}}
+            </ion-item>
+
+
+        </ion-list>
+
+    </ion-content>
+
+    <ion-footer class="ion-no-border">
+        <ion-toolbar class="ion-no-border">
+            <ion-item lines="none" button (click)="cerrarSesion()">
+                <ion-icon name="exit-outline" slot="start"></ion-icon>
+                Salir
+            </ion-item>
+            <ion-item lines="none" *ngIf="appVersionStr">
+                <ion-icon name="git-branch-outline" slot="start"> </ion-icon>
+                Versión: {{appVersionStr}}
+                <!--<ion-badge slot="end" color="warning" button>Actualizar 1.1</ion-badge>-->
+            </ion-item>
+        </ion-toolbar>
+    </ion-footer>
+</ion-menu>
