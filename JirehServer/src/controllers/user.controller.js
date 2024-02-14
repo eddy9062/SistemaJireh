@@ -13,6 +13,7 @@ export const Autentica = async (req, res) => {
         password: req.body.password
     }
     console.log('Server ' + JSON.stringify(User));
+    //console.log('Server ' + pool.getConnection);
 
     try {
         const [rows] = await pool.query('SELECT * FROM tbl_user WHERE usuario = ?', [User.usuario])

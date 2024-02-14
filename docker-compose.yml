@@ -1,9 +1,11 @@
-version: '3.8'
+version: '3.3'
 
 services:
   mysqldb: 
     image: mysql:8.0.33
     hostname: $DB_HOST
+    volumes:
+      - ../../volumes/db:/var/lib/mysql  
     env_file:
       - ./JirehServer/.env
     environment:
