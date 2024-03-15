@@ -41,22 +41,23 @@ export class ArticuloPage implements OnInit {
     private loadingService: LoadingService,
     private toastService: ToastService,
     private _articuloService: ArticuloService,
-    private _bodegaService: BodegaService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.getEmpresa()?.subscribe((empre) => {
+    /*this.sessionService.getEmpresa()?.subscribe((empre) => {
       this._empresa = empre;
       this.getBodegas()
       this.getArticulos();
     });
+*/
+    this.getArticulos();
   }
 
   public redirect(menu: any) {
     this.router.navigate([menu.url]);
   }
-
+/*
   segmentChanged(event: any ){
     if ( event.detail.value == 0 ){
       this._textoBuscarSegment = 0;
@@ -67,7 +68,7 @@ export class ArticuloPage implements OnInit {
 
   selectBodega(item: any) {
     this._bodega = item;
-  }
+  }*/
 
   onSearch(event: any) {
     this._textoBuscar = event.detail.value;
@@ -76,7 +77,7 @@ export class ArticuloPage implements OnInit {
   onSearchSegment(event: any) {
     this._textoBuscarSegment = event.detail.value;
   }
-  */
+  
   public getBodegas() {
     this._bodegaService.getBodegas()
       .subscribe({
@@ -91,7 +92,7 @@ export class ArticuloPage implements OnInit {
           });
         },
       });
-  }
+  }*/
 
   RemoveItem(empresa: number, cat: number, cod: string) {
     this._listArticulo.forEach((value, index) => {
@@ -143,23 +144,22 @@ export class ArticuloPage implements OnInit {
   async onUpdate(item?: ArticuloModel) {
     //console.table(item)
     const data = {
-      cod_empresa: item?.cod_empresa,
       cat_articulo: item?.cat_articulo,
-      cod_bodega: item?.cod_bodega,
-      cod_articulo: item?.cod_articulo
+      cod_articulo: item?.cod_articulo,
+      descripcion: item?.descripcion,
+      obs: item?.obs
     }
    // this.router.navigate(['det-articulo'],{queryParams: {cod_empresa: item?.cod_empresa,cat_articulo: item?.cat_articulo,cod_bodega: item?.cod_bodega,cod_articulo: item?.cod_articulo}})
    this.router.navigate(['/articulo'],{queryParams: data})
   }
 
   async creaArticulo() {
-    //this._bodega
-    const data = {
+    /*const data = {
       cod_empresa: this._bodega?.cod_empresa,
       cod_bodega: this._bodega?.cod_bodega,
     }
-    //this.router.navigateByUrl("/det-articulo");
-    this.router.navigate(['/articulo'],{queryParams: data})
+    this.router.navigate(['/articulo'],{queryParams: data})*/
+    this.router.navigate(['/articulo'])
   }
 
   onDelete(item: ArticuloModel) {

@@ -18,25 +18,12 @@
                         <ion-input type="text" fill="outline" formControlName="descripcion" label="Descripción de artículo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
                     </ion-item>
                     <ion-item>
-                        <ion-input type="number" formControlName="precio_compra" label="Precio Compra" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-input type="number" formControlName="existencia" label="Existencia Articulo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
-                    </ion-item>
-                    <ion-item>
                         <ion-input type="text" formControlName="obs" label="Observaciones" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
                     </ion-item>
                     <ion-button [disabled]="!formArticulo.valid" expand="block" color="primary" (click)="addDet()">
                         add Detalle Producto
                     </ion-button>
                     <div class="mu-3">
-                        <ion-row class="header-row">
-                            <ion-col size="4">DESCRIPCION</ion-col>
-                            <ion-col size="2">CANT.</ion-col>
-                            <ion-col size="2">PRECIO</ion-col>
-                            <ion-col size="2">CANT. MAYOREO</ion-col>
-                            <ion-col size="2">PRECIO</ion-col>
-                        </ion-row>
                         <!--
                     <ion-grid [fixed]="true">
                             <ion-row *ngFor="let item_det of formArticulo.get('det').controls; let i = index" [formGroup]="item_det">
@@ -49,13 +36,30 @@
                         </ion-grid>
                         -->
                         <ion-grid [fixed]="true">
-                            <ion-row *ngFor="let item of _listDetalle">
-                                <ion-col>{{item.descripcion}}</ion-col>
-                                <ion-col>{{item.unidades}}</ion-col>
-                                <ion-col>{{item.precio_venta}}</ion-col>
-                                <ion-col>{{item.cant_mayoreo}}</ion-col>
-                                <ion-col>{{item.precio_mayoreo}}</ion-col>
+                            <ion-row class="header-row">
+                                <ion-col size="5" class="ion-text-center">DESCRIPCION</ion-col>
+                                <ion-col size="1" class="ion-text-center">CANT.</ion-col>
+                                <ion-col size="2" class="ion-text-center">PRECIO</ion-col>
+                                <ion-col size="2" class="ion-text-center">MAYOREO</ion-col>
+                                <ion-col size="2" class="ion-text-center">PRECIO</ion-col>
                             </ion-row>
+                            <ion-item-sliding  *ngFor="let item of _listDetalle">
+                        <ion-item>
+                                <ion-col size="5" class="ion-text-left">{{item.descripcion}}</ion-col>
+                                <ion-col size="1" class="ion-text-center">{{item.unidades}}</ion-col>
+                                <ion-col size="2" class="ion-text-center">{{item.precio_venta}}</ion-col>
+                                <ion-col size="2" class="ion-text-center">{{item.cant_mayoreo}}</ion-col>
+                                <ion-col size="2" class="ion-text-center">{{item.precio_mayoreo}}</ion-col>
+                        </ion-item>
+                        <ion-item-options>
+                            <ion-item-option color="light" expandable="true" (click)="onUpdate(item)">
+                                <ion-icon slot="start" style="color: rgba(9, 146, 5, 0.685); font-size: 26px" name="create-outline"></ion-icon>
+                            </ion-item-option>
+                            <ion-item-option color="light" expandable="true" (click)="onDelete(item)">
+                                <ion-icon slot="start" style="color: red; font-size: 24px" name="trash-sharp"></ion-icon>
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
                         </ion-grid>
 
                     </div>

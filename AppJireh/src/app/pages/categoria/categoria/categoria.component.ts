@@ -31,7 +31,6 @@ export class CategoriaComponent  implements OnInit {
   ) {
     this.FormCategoria = this.fb.group({
       cat_articulo: [''],
-      cod_empresa: [this.navParams.get('empresa'), Validators.required],
       descripcion: ['', Validators.required],
       
     });
@@ -57,7 +56,6 @@ export class CategoriaComponent  implements OnInit {
     if (this.navParams.get('item')) {
       //console.log(this.navParams.get('item'))
       this.FormCategoria = await this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cat_articulo: [this.receivedData.cat_articulo, Validators.required],
         descripcion: [this.receivedData.descripcion, Validators.required],
 

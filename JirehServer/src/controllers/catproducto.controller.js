@@ -2,7 +2,7 @@ import { pool } from '../db.js'
 
 export const getCatProductos = async(req, res) => {
     try {
-        const [rows] = await pool.query('SELECT cod_empresa, cat_articulo, descripcion FROM jirehdb.tbl_cat_articulo');
+        const [rows] = await pool.query('SELECT cat_articulo, descripcion FROM jirehdb.tbl_cat_articulo');
         res.json(rows)
     } catch (error) {
         return res.status(500).json({
@@ -13,7 +13,7 @@ export const getCatProductos = async(req, res) => {
 
 export const getCatProducto = async(req, res) => {
     try {
-        const [rows] = await pool.query('SELECT cod_empresa, cat_articulo, descripcion FROM jirehdb.tbl_cat_articulo WHERE cod_empresa = ? and cat_articulo = ?', [req.params.cod_empresa, req.params.cat_articulo]);
+        const [rows] = await pool.query('SELECT cat_articulo, descripcion FROM jirehdb.tbl_cat_articulo WHERE cod_empresa = ? and cat_articulo = ?', [req.params.cat_articulo]);
         if (rows.length <= 0) return res.status(404).json({
             message: 'Categoria Producto no existe'
         })
@@ -28,18 +28,14 @@ export const getCatProducto = async(req, res) => {
 export const createCatProducto = async(req, res) => {
     //console.log(req.body)
     const CatProducto = {
-        cod_empresa: req.body.cod_empresa,
         descripcion: req.body.descripcion
-
     }
     try {
-        const [rows] = await pool.query('CALL PR_CAT_PRODUCTO(?,?)', [CatProducto.cod_empresa, CatProducto.descripcion])
+        const [rows] = await pool.query('CALL PR_CAT_PRODUCTO(?)', [CatProducto.descripcion])
             //        console.log(rows[0][0].p_id)
         res.send({
             cat_articulo: rows[0][0].p_id,
-            cod_empresa: CatProducto.cod_empresa,
             descripcion: CatProducto.descripcion
-
         })
     } catch (error) {
         console.log(error)
@@ -53,7 +49,7 @@ export const createCatProducto = async(req, res) => {
 export const updateCatProducto = async(req, res) => {
     const { descripcion, cod_empresa, cat_articulo } = req.body;
     try {
-        const [result] = await pool.query('UPDATE tbl_cat_articulo SET descripcion = IFNULL(?, descripcion) WHERE cod_empresa = ? and cat_articulo = ?', [descripcion, cod_empresa, cat_articulo])
+        const [result] = await pool.query('UPDATE tbl_cat_articulo SET descripcion = IFNULL(?, descripcion) WHERE cat_articulo = ?', [descripcion, cat_articulo])
             //console.log(result.changedRows)
         if (result.affectedRows === 0) return res.status(404).json({
                 message: 'Categoria Producto no existe'
@@ -70,9 +66,9 @@ export const updateCatProducto = async(req, res) => {
 
 export const deleteCatProducto = async(req, res) => {
     //console.log("Llegue " + JSON.stringify(req.body))
-    const { cod_empresa, cat_articulo } = req.body;
+    const { cat_articulo } = req.body;
     try {
-        const [result] = await pool.query('DELETE FROM tbl_cat_articulo WHERE cod_empresa = ? and cat_articulo = ?', [cod_empresa, cat_articulo]);
+        const [result] = await pool.query('DELETE FROM tbl_cat_articulo WHERE cat_articulo = ?', [cat_articulo]);
         //console.log([result])
         if (result.affectedRows <= 0) return res.status(404).json({
             message: 'Categoria Producto no Existe'

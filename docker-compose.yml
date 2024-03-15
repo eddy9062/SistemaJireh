@@ -17,7 +17,15 @@ services:
       - 3306  
     ports:
       - $DB_LOCAL_PORT:${DB_DOCKER_PORT}
-
+  jireh-server:
+    container_name: jireh-server
+    build:
+      context: ./JirehServer
+      dockerfile: Dockerfile
+    image: jireh-server:0.0.1
+    ports:
+      - 3000:3000
+    restart: always
 #app:
  # build: .
   #depends_on:

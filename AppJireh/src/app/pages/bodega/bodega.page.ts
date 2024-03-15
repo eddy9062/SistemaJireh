@@ -11,7 +11,7 @@ import { BodegaComponent } from './bodega/bodega.component';
 import { BodegaService } from 'src/app/core/services/bodega.service';
 import { HeaderComponent } from "../../component/header/header.component";
 import { FiltroPipe } from "../../component/pipes/filtro.pipe";
-import { error } from 'console';
+
 
 @Component({
     selector: 'app-bodega',
@@ -24,7 +24,7 @@ export class BodegaPage implements OnInit {
   
   public _listBodega: BodegaModel[] = [];
   _textoBuscar: string = '';
-  public _empresa: any;
+  
 
   @ViewChild(IonList) ionList: IonList | undefined;
 
@@ -38,10 +38,7 @@ export class BodegaPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.getEmpresa()?.subscribe((empre) => {
-      this._empresa = empre;
       this.getBodegas();
-    });
   }
 
   public redirect(menu: any) {
@@ -52,9 +49,9 @@ export class BodegaPage implements OnInit {
     this._textoBuscar = event.detail.value;
   }
 
-  RemoveItem(empresa: number, key: number) {
+  RemoveItem(key: number) {
     this._listBodega.forEach((value, index) => {
-      if (value.cod_empresa == empresa && value.cod_bodega == key)
+      if (value.cod_bodega == key)
         this._listBodega.splice(index, 1);
     });
   }
@@ -111,13 +108,10 @@ export class BodegaPage implements OnInit {
 
   async creaBodega() {
     const title = 1;
-    const empresa = this._empresa;
-    console.log(empresa);
     const modal = await this.modalCtrl.create({
       component: BodegaComponent,
       componentProps: {
         title,
-        empresa,
       },
     });
     modal.onDidDismiss().then((item) => {
@@ -139,8 +133,8 @@ export class BodegaPage implements OnInit {
     this._bodegaService.deleteBodega(item)).subscribe({
       next: (response) => {
         this.ionList?.closeSlidingItems();
-        this.RemoveItem(item.cod_empresa, item.cod_bodega);
-        console.log(response);
+        this.RemoveItem(item.cod_bodega);
+        //console.log(response);
         this.toastService.show('Registro eliminado', {
           position: 'middle',
           duration: 2000,

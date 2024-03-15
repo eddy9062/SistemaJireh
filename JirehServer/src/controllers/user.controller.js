@@ -136,6 +136,7 @@ export const createUsuario = async (req, res) => {
     try {
         const [rows] = await pool.query('CALL PR_USER(?,?,?,?,?)', [User.cod_empresa, User.usuario, User.nombre, User.role, User.password])
 
+        
         //console.log(rows[0][0].p_id)
         res.send({
             id: rows[0][0].p_id,

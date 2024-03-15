@@ -78,7 +78,6 @@ export class ClienteService  implements OnInit{
 
   deleteCliente(data: any): Observable<any> {
     const item = {
-      cod_empresa: data.cod_empresa,
       cod_cliente: data.cod_cliente
     }
     let headers = new HttpHeaders()

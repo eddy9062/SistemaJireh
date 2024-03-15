@@ -36,7 +36,6 @@ export class ClienteComponent implements OnInit {
   ) {
     this.FormCliente = this.fb.group({
       cod_cliente: [''],
-      cod_empresa: [this.navParams.get('empresa'), Validators.required],
       nombre: ['', Validators.required],
       direccion: ['', Validators.required],
       telefono: ['', Validators.required],
@@ -59,12 +58,11 @@ export class ClienteComponent implements OnInit {
     }
     this.creaFormulario();
   }
-
+  //cod_empresa: [this.receivedData.cod_empresa, Validators.required],
   async creaFormulario() {
     if (this.navParams.get('item')) {
       console.log(this.navParams.get('item'))
       this.FormCliente = await this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cod_cliente: [this.receivedData.cod_cliente, Validators.required],
         nombre: [this.receivedData.nombre, Validators.required],
         direccion: [this.receivedData.direccion, Validators.required],

@@ -60,7 +60,7 @@ export const getTarea = async (req, res) => {
 
 export const getResumen = async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT TITLE titulo,descripcion, CAST(SUM(IF(COMPLETED=TRUE, 1, 0)) AS SIGNED)completada,COUNT(1)total FROM TBL_TAREA TT, TBL_DET_TAREA TDT  WHERE TT.ID_USUARIO  = TDT.ID_USUARIO AND TT.ID_TAREA = TDT.ID_TAREA AND TT.ID_USUARIO = ? GROUP BY TITLE,DESCRIPCION', [req.params.id_usuario]);
+        const [rows] = await pool.query('SELECT TITLE titulo,descripcion, CAST(SUM(IF(COMPLETED=TRUE, 1, 0)) AS SIGNED)completada,COUNT(1)total FROM TBL_TAREA TT, TBL_DET_TAREA TDT  WHERE  TT.ID_USUARIO  = TDT.ID_USUARIO AND TT.ID_TAREA = TDT.ID_TAREA AND TT.ID_USUARIO = ? GROUP BY TITLE,DESCRIPCION', [req.params.id_usuario]);
         if (rows.length <= 0) return res.status(404).json({
             message: 'No existen tareas para este usuario'
         })

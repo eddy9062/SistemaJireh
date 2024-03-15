@@ -40,6 +40,13 @@ export class ArticuloService {
     return this._http.post(this.url + 'lstarticulo',_data, { headers: headers });
   }
 
+  getDetArticulo(_data: any): Observable<any> {
+
+    console.log(_data)
+    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${this._token}`);
+    return this._http.post(this.url + 'lstdetarticulo',_data, { headers: headers });
+  }
+
   registraArticulo(data: any): Observable<any> {
     //console.log(data);
     let headers = new HttpHeaders()
@@ -47,6 +54,7 @@ export class ArticuloService {
       .set('Authorization', `Bearer ${this._token}`);
     return this._http.post(this.url + 'articulo', data, { headers: headers });
   }
+
   editarArticulo(data: any): Observable<any> {
     //console.log(data);
     //console.log(this._token);
@@ -54,6 +62,15 @@ export class ArticuloService {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${this._token}`);
     return this._http.patch(this.url + 'articulo', data, { headers: headers });
+  }
+
+  editarDetArticulo(data: any): Observable<any> {
+    //console.log(data);
+    //console.log(this._token);
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${this._token}`);
+    return this._http.post(this.url + 'det_articulo', data, { headers: headers });
   }
 
   deleteArticulo(data: any): Observable<any> {

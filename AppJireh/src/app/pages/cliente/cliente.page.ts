@@ -57,9 +57,9 @@ export class ClientePage implements OnInit {
     this._textoBuscar = event.detail.value;
   }
 
-  RemoveItem(empresa: number, key: number) {
+  RemoveItem(key: number) {
     this._listCliente.forEach((value, index) => {
-      if (value.cod_empresa == empresa && value.cod_cliente == key)
+      if (value.cod_cliente == key)
         this._listCliente.splice(index, 1);
     });
   }
@@ -143,7 +143,7 @@ export class ClientePage implements OnInit {
     this._clienteService.deleteCliente(item).subscribe({
       next: (response) => {
         this.ionList?.closeSlidingItems();
-        this.RemoveItem(item.cod_empresa, item.cod_cliente);
+        this.RemoveItem(item.cod_cliente);
         console.log(response);
         this.toastService.show('Registro eliminado', {
           position: 'middle',

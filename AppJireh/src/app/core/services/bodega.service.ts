@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SessionService } from './security/session.service';
 import { BodegaModel } from './models/BodegaModels';
+import { TipoOperaModel } from './models/TipoOperaModel';
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +69,50 @@ export class BodegaService {
       body: item
    });
   }
+
+// Tipos de operacion
+
+getTTipOperaciones(): Observable<TipoOperaModel> {
+  //console.log(this._token)
+  let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${this._token}`);
+  return this._http.get<TipoOperaModel>(this.url + 'operaciones', { headers: headers });
+}
+
+getTipOperacion(id: any): Observable<any> {
+  let headers = new HttpHeaders().set('Content-Type', 'application/json');
+  return this._http.get(this.url + 'operacion/' + id, { headers: headers });
+}
+
+registraTipOperacion(data: any): Observable<any> {
+  //console.log(data);
+  let headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${this._token}`);
+  return this._http.post(this.url + 'operacion', data, { headers: headers });
+}
+editarTipOperacion(data: any): Observable<any> {
+  //console.log(data);
+  //console.log(this._token);
+  let headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${this._token}`);
+  return this._http.patch(this.url + 'operacion', data, { headers: headers });
+}
+
+deleteTipOperacion(data: any): Observable<any> {
+  const item = {
+    cod_tipo: data.cod_tipo
+  }
+  let headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${this._token}`);
+  return this._http.delete(this.url + 'operacion', {
+    headers: headers,
+    body: item
+ });
+}
+
+
+
 
 }

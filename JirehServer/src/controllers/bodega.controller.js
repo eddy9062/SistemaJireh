@@ -2,7 +2,7 @@ import { pool } from '../db.js'
 
 export const getBodegas = async(req, res) => {
     try {
-        const [rows] = await pool.query('SELECT cod_empresa, cod_bodega, nombre, descripcion FROM jirehdb.tbl_bodega');
+        const [rows] = await pool.query('SELECT cod_bodega, nombre, descripcion FROM jirehdb.tbl_bodega');
         res.json(rows)
     } catch (error) {
         return res.status(500).json({
@@ -13,7 +13,7 @@ export const getBodegas = async(req, res) => {
 
 export const getBodega = async(req, res) => {
     try {
-        const [rows] = await pool.query('SELECT cod_empresa, cod_bodega, nombre, descripcion FROM jirehdb.tbl_bodega WHERE cod_empresa = ? and cod_bodega = ?', [req.params.cod_empresa, req.params.cod_bodega]);
+        const [rows] = await pool.query('SELECT cod_bodega, nombre, descripcion FROM jirehdb.tbl_bodega WHERE cod_bodega = ?', [req.params.cod_bodega]);
         if (rows.length <= 0) return res.status(404).json({
             message: 'Bodega no existe'
         })
@@ -28,17 +28,15 @@ export const getBodega = async(req, res) => {
 export const createBodega = async(req, res) => {
     //console.log(req.body)
     const Bodega = {
-        cod_empresa: req.body.cod_empresa,
         nombre: req.body.nombre,
         descripcion: req.body.descripcion
     }
     try {
-        const [rows] = await pool.query('CALL PR_BODEGA(?,?,?)', [Bodega.cod_empresa, Bodega.nombre, Bodega.descripcion])
+        const [rows] = await pool.query('CALL PR_BODEGA(?,?)', [Bodega.nombre, Bodega.descripcion])
 
         // console.log(rows[0][0].p_id)
         res.send({
             cod_bodega: rows[0][0].p_id,
-            cod_empresa: Bodega.cod_empresa,
             nombre: Bodega.nombre,
             descripcion: Bodega.descripcion
 
@@ -53,9 +51,9 @@ export const createBodega = async(req, res) => {
 }
 
 export const updateBodega = async(req, res) => {
-    const { nombre, descripcion, cod_empresa, cod_bodega } = req.body;
+    const { nombre, descripcion, cod_bodega } = req.body;
     try {
-        const [result] = await pool.query('UPDATE tbl_bodega SET nombre = IFNULL(?, nombre),descripcion = IFNULL(?, descripcion) WHERE cod_empresa = ? and cod_bodega = ?', [nombre, descripcion, cod_empresa, cod_bodega])
+        const [result] = await pool.query('UPDATE tbl_bodega SET nombre = IFNULL(?, nombre),descripcion = IFNULL(?, descripcion) WHERE cod_bodega = ?', [nombre, descripcion, cod_bodega])
             //console.log(result.changedRows)
         if (result.affectedRows === 0) return res.status(404).json({
                 message: 'Bodega no existe'
@@ -72,9 +70,9 @@ export const updateBodega = async(req, res) => {
 
 export const deleteBodega = async(req, res) => {
     //console.log("Llegue " + JSON.stringify(req.body))
-    const { cod_empresa, cod_bodega } = req.body;
+    const { cod_bodega } = req.body;
     try {
-        const [result] = await pool.query('DELETE FROM tbl_bodega WHERE cod_empresa = ? and cod_bodega = ?', [cod_empresa, cod_bodega]);
+        const [result] = await pool.query('DELETE FROM tbl_bodega WHERE cod_bodega = ?', [cod_bodega]);
         //console.log([result])
         if (result.affectedRows <= 0) return res.status(404).json({
             message: 'Bodega no Existe'

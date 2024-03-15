@@ -51,9 +51,9 @@ export class ProveedorPage implements OnInit {
     this._textoBuscar = event.detail.value;
   }
 
-  RemoveItem(empresa: number, key: number) {
+  RemoveItem(key: number) {
     this._listProveedor.forEach((value, index) => {
-      if (value.cod_empresa == empresa && value.cod_proveedor == key)
+      if (value.cod_proveedor == key)
         this._listProveedor.splice(index, 1);
     });
   }
@@ -102,13 +102,10 @@ export class ProveedorPage implements OnInit {
 
   async creaProveedor() {
     const title = 1;
-    const empresa = this._empresa;
-    console.log(empresa);
     const modal = await this.modalCtrl.create({
       component: ProveedorComponent,
       componentProps: {
         title,
-        empresa,
       },
     });
     modal.onDidDismiss().then((item) => {
@@ -130,7 +127,7 @@ export class ProveedorPage implements OnInit {
     this._proveedorService.deleteProveedor(item)).subscribe({
       next: (response) => {
         this.ionList?.closeSlidingItems();
-        this.RemoveItem(item.cod_empresa, item.cod_proveedor);
+        this.RemoveItem(item.cod_proveedor);
         console.log(response);
         this.toastService.show('Registro eliminado', {
           position: 'middle',

@@ -21,6 +21,8 @@ export class ProveedorComponent  implements OnInit {
   public title: string | undefined;
   public tipoReg: number | undefined;
 
+  //cod_empresa: [this.navParams.get('empresa'), Validators.required],
+
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
@@ -30,7 +32,6 @@ export class ProveedorComponent  implements OnInit {
   ) {
     this.FormProveedor = this.fb.group({
       cod_proveedor: [''],
-      cod_empresa: [this.navParams.get('empresa'), Validators.required],
       nombre: ['', Validators.required],
       direccion: ['', Validators.required],
       telefono: ['', Validators.required],
@@ -58,7 +59,6 @@ export class ProveedorComponent  implements OnInit {
     if (this.navParams.get('item')) {
       //console.log(this.navParams.get('item'))
       this.FormProveedor = await this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cod_proveedor: [this.receivedData.cod_proveedor, Validators.required],
         nombre: [this.receivedData.nombre, Validators.required],
         direccion: [this.receivedData.direccion, Validators.required],

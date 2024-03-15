@@ -1,7 +1,6 @@
 export class TipoOperaModel {
     constructor(
-    public id: string,
-    public id_empresa: string,
+    public cod_tipo: number,
     public des_tipo: string,
     ){}
 }

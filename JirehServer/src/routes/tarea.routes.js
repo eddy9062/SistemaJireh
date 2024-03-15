@@ -10,7 +10,6 @@ tareaRouter.get('/resumen/:id_usuario', verifyToken, getResumen)
 tareaRouter.post('/tareas', createTarea)
 tareaRouter.delete('/tarea', verifyToken, deleteTarea)
 
-
 //tareaRouter.patch('/tarea', verifyToken, updateArticulo)
 //tareaRouter.delete('/tarea', verifyToken, deleteArticulo)
 

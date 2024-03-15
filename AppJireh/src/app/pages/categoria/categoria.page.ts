@@ -23,7 +23,7 @@ import { CategoriaService } from 'src/app/core/services/categoria.service';
 export class CategoriaPage implements OnInit {
   public _listCategoria: CategoriaModel[] = [];
   _textoBuscar: string = '';
-  public _empresa: any;
+  
 
   @ViewChild(IonList) ionList: IonList | undefined;
 
@@ -37,10 +37,7 @@ export class CategoriaPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.getEmpresa()?.subscribe((empre) => {
-      this._empresa = empre;
       this.getCategorias();
-    });
   }
 
   public redirect(menu: any) {
@@ -51,9 +48,9 @@ export class CategoriaPage implements OnInit {
     this._textoBuscar = event.detail.value;
   }
 
-  RemoveItem(empresa: number, key: number) {
+  RemoveItem(key: number) {
     this._listCategoria.forEach((value, index) => {
-      if (value.cod_empresa == empresa && value.cat_articulo == key)
+      if (value.cat_articulo == key)
         this._listCategoria.splice(index, 1);
     });
   }
@@ -112,13 +109,10 @@ export class CategoriaPage implements OnInit {
 
   async creaCategoria() {
     const title = 1;
-    const empresa = this._empresa;
-    console.log(empresa);
     const modal = await this.modalCtrl.create({
       component: CategoriaComponent,
       componentProps: {
         title,
-        empresa,
       },
     });
     modal.onDidDismiss().then((item) => {
@@ -140,7 +134,7 @@ export class CategoriaPage implements OnInit {
     this._categoriaService.deleteCategoria(item)).subscribe({
       next: (response) => {
         this.ionList?.closeSlidingItems();
-        this.RemoveItem(item.cod_empresa, item.cat_articulo);
+        this.RemoveItem(item.cat_articulo);
         console.log(response);
         this.toastService.show('Registro eliminado', {
           position: 'middle',

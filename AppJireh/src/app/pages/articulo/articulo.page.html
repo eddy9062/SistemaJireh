@@ -1,16 +1,15 @@
 <app-header>Articulos</app-header>
 <ion-content [fullscreen]="true" class="ion-padding">
+    <!--
     <ion-segment value=0 (ionChange)="segmentChanged($event)" [scrollable]="true">
         <ion-segment-button value=0>
             <ion-icon name="home-outline"></ion-icon>
         </ion-segment-button>
-
         <ion-segment-button *ngFor="let item of _listBodega" value={{item.cod_bodega}} (click)="selectBodega(item)">
             <ion-img style="width: 100px; height: 100px;" src="assets/images/libreria.png"></ion-img>
-            <!--<ion-label>{{ item.nombre }}</ion-label>-->
         </ion-segment-button>
     </ion-segment>
-
+-->
     <ion-grid class="ion-no-padding" color="primary">
         <ion-row class="ion-justify-content-center">
             <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" class="ion-no-padding">
@@ -97,10 +96,16 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="creaArticulo()">
+        <ion-fab-button>
+            <ion-icon name="add-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+<!--
     <ion-fab *ngIf="_textoBuscarSegment != 0" vertical="bottom" horizontal="end" slot="fixed" (click)="creaArticulo()">
         <ion-fab-button>
             <ion-icon name="add-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+-->
 </ion-content>

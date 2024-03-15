@@ -128,6 +128,9 @@ export class SessionService {
       if (token != null) {
         //this._empresa = JSON.parse(window.atob(token.split('.')[1]))["cod_empresa"]
         let roles = JSON.parse(window.atob(token.split('.')[1]))["groups"]
+        //console.log(roles)
+       // console.log(Array.isArray(roles) )
+          
         if (Array.isArray(roles)) {
           this._roles.next(roles)
         }
@@ -174,7 +177,15 @@ export class SessionService {
 
   public async logOut() {
     await Preferences.remove({ key: SessionService.KEY_JWT });
+    await Preferences.remove({key: this.KEY_CONFIG});
+    //await Preferences.remove({ key: this.KEY_ID });
+    await Preferences.remove({ key: this.KEY_USER_STR });
+    await Preferences.remove({ key: this.KEY_USER });
+
     await this._token.next(null)
+    await this._empresa.next(null)
+    //await this._id_usuario.next(null)
+
     this._roles.next([])
     this.router.navigateByUrl("/login")
   }

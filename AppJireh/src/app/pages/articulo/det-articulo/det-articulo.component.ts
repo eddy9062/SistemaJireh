@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ArticuloService } from 'src/app/core/services/articulo.service';
 import { ClienteService } from 'src/app/core/services/cliente.service';
 import { ToastService } from 'src/app/core/services/utils/toast.service';
 
@@ -25,23 +26,23 @@ export class DetArticuloComponent  implements OnInit {
     private modalCtrl: ModalController,
     private navParams: NavParams,
     private toastService: ToastService,
-    private _clienteService: ClienteService
+    private _articuloService: ArticuloService
   ) {
 
-    this.receivedData = this.navParams.get('dataArt');
+    //this.receivedData = this.navParams.get('dataArt');
+    this.receivedData = this.navParams.get('item');
 
     console.log(this.receivedData)
 
     this.FormDetArticulo = this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cat_articulo: [this.receivedData.cat_articulo, Validators.required],
         cod_articulo: [this.receivedData.cod_articulo, Validators.required],
-        //cod_det_articulo: ['', Validators.required],
+        cod_det_articulo: [this.receivedData.cod_det_articulo, Validators.required],
         descripcion: [this.receivedData.descripcion, Validators.required],
-        precio_venta: [null, Validators.required],
-        unidades: [null, Validators.required],
-        precio_mayoreo: [null, Validators.required],
-        cant_mayoreo: [null, Validators.required],
+        precio_venta: [this.receivedData.precio_venta, Validators.required],
+        unidades: [this.receivedData.unidades, Validators.required],
+        precio_mayoreo: [this.receivedData.precio_mayoreo, Validators.required],
+        cant_mayoreo: [this.receivedData.cant_mayoreo, Validators.required],
     });
     
   }
@@ -60,21 +61,21 @@ export class DetArticuloComponent  implements OnInit {
       this.title = 'Actualización';
       this.tipoReg = 2;
     }
-    this.creaFormulario();
+    //this.creaFormulario();
   }
 
   async creaFormulario() {
     if (this.navParams.get('item')) {
       console.log(this.navParams.get('item'))
       this.FormDetArticulo = await this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cat_articulo: [this.receivedData.cat_articulo, Validators.required],
         cod_articulo: [this.receivedData.cod_articulo, Validators.required],
+        cod_det_articulo: [this.receivedData.cod_det_articulo, Validators.required],
         descripcion: [this.receivedData.descripcion, Validators.required],
-        precio_venta: [null, Validators.required],
-        unidades: [null, Validators.required],
-        precio_mayoreo: [null, Validators.required],
-        cant_mayoreo: [null, Validators.required],
+        precio_venta: [this.receivedData.precio_venta, Validators.required],
+        unidades: [this.receivedData.unidades, Validators.required],
+        precio_mayoreo: [this.receivedData.precio_mayoreo, Validators.required],
+        cant_mayoreo: [this.receivedData.cant_mayoreo, Validators.required],
       });
     }
   }
@@ -88,19 +89,21 @@ export class DetArticuloComponent  implements OnInit {
   }
 
   async add() {
-    console.log(this.FormDetArticulo)
-    return this.modalCtrl.dismiss(this.FormDetArticulo.value, 'confirm');
-    /*if (this.tipoReg == 1) {
-      this.crearRegistro(this.FormDetArticulo.value);
+    //console.log(this.FormDetArticulo.value)
+    //console.log(this.tipoReg)
+
+    if (this.tipoReg == 1) {
+      return await this.modalCtrl.dismiss(this.FormDetArticulo.value, 'confirm');
     } else {
-      this.actualizarRegistro(this.FormDetArticulo.value);
-    }*/
+      return await this.actualizarRegistro(this.FormDetArticulo.value);
+    }
   }
   
   async actualizarRegistro(data: any) {
-    this._clienteService.editarCliente(data).subscribe({
+    this._articuloService.editarDetArticulo(data).subscribe({
       next: (response) => {
-        this.confirm(true);
+        //this.confirm(true);
+        return this.modalCtrl.dismiss(data, 'confirm');
       },
       error: (err) => {
         this.toastService.show(`Ocurrio un error ${err.error.message} `, {
@@ -109,18 +112,5 @@ export class DetArticuloComponent  implements OnInit {
         });
       },
     });
-  }
-  async crearRegistro(data: any) {
-    this._clienteService.registraCliente(data).subscribe({
-      next: (response) => {
-        this.confirm(true);
-      },
-      error: (err) => {
-        this.toastService.show(`Ocurrio un error ${err.message} `, {
-          position: 'bottom',
-          duration: 4000,
-        });
-      },
-    }); 
   }
 }

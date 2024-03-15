@@ -8,6 +8,7 @@ import bodegaRouter from './routes/bodega.routes.js'
 import catproductoRouter from './routes/CatProducto.routes.js'
 import articuloRouter from './routes/articulo.routes.js'
 import tareaRouter from './routes/tarea.routes.js'
+import tipOperaRouter from './routes/tipOperacion.js'
 
 
 //Config Server
@@ -21,8 +22,11 @@ app.use('/api', roleRouter);
 app.use('/api', clienteRouter);
 app.use('/api', proveedorRouter);
 app.use('/api', bodegaRouter);
+app.use('/api', tipOperaRouter);
 app.use('/api', catproductoRouter);
 app.use('/api', articuloRouter);
+
+//Tareas
 app.use('/api', tareaRouter);
 
 

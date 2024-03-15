@@ -30,7 +30,6 @@ export class BodegaComponent  implements OnInit {
   ) {
     this.FormBodega = this.fb.group({
       cod_bodega: [''],
-      cod_empresa: [this.navParams.get('empresa'), Validators.required],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
     });
@@ -56,7 +55,6 @@ export class BodegaComponent  implements OnInit {
     if (this.navParams.get('item')) {
       //console.log(this.navParams.get('item'))
       this.FormBodega = await this.fb.group({
-        cod_empresa: [this.receivedData.cod_empresa, Validators.required],
         cod_bodega: [this.receivedData.cod_bodega, Validators.required],
         nombre: [this.receivedData.nombre, Validators.required],
         descripcion: [this.receivedData.descripcion, Validators.required],
