@@ -1,6 +1,4 @@
-FROM node:18-alpine as deps
-# Instala nano
-RUN apk add --no-cache nano
+FROM node:18-alpine
 WORKDIR /Server
 COPY package.json . 
 
