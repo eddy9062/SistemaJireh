@@ -67,7 +67,7 @@ export const getResumen = async (req, res) => {
         res.json(rows)
     } catch (error) {
         return res.status(500).json({
-            message: 'error en el Servidor'
+            message: 'error en el Servidor '+error.message
         })
     }
 }
