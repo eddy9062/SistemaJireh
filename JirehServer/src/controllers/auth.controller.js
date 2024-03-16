@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { SECRET } from '../config.js'
 import { validaToken } from '../controllers/user.controller.js'
+
 //Authorization: Bearer <token>
+
 export const verifyToken = async(req, res, next) => {
     //console.log('entre el verifytoken')
     const bearerHeader = req.headers['authorization']

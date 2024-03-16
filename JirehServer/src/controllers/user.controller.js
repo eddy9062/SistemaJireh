@@ -6,7 +6,7 @@ import { json } from 'express'
 
 export const Autentica = async (req, res) => {
 
-    console.log('Server ' + req);
+   // console.log('Server ' + req);
 
     const User = {
         usuario: req.body.usuario,
