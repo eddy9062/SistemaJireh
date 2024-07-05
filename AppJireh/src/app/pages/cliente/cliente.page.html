@@ -11,8 +11,8 @@
                         <ion-label class="mt-0">Listado de Clientes</ion-label>
                     </ion-list-header>
 
-                    <ion-item-sliding *ngFor=" let i=index, let item of _listCliente | filtro:_textoBuscar:'nombre'">
-                        <ion-item>
+                    <ion-item-sliding  *ngFor=" let i=index, let item of _listCliente | filtro:_textoBuscar:'nombre'">
+                        <ion-item (click)="movCliente(item)">
                             <ion-label>
                                 <h3>{{item.nombre}}</h3>
                                 <p>{{item.direccion}}</p>

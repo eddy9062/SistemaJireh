@@ -70,4 +70,8 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () => import('./pages/articulo/articulo/articulo.component').then( m => m.ArticuloComponent)
   },
+  {
+    path: 'venta',
+    loadComponent: () => import('./pages/venta/venta.page').then( m => m.VentaPage)
+  },
 ];

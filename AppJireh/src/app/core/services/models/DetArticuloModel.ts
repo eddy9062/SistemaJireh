@@ -1,7 +1,7 @@
 export class DetArticuloModel {
   constructor(
     public cod_empresa?: number,
-    public cat_articulo?: number,
+    public cod_bodega?: number,
     public cod_articulo?: string,
     public descripcion?: string,
     public precio_venta?: number,

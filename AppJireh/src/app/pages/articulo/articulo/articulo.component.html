@@ -6,8 +6,8 @@
             <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" class="ion-no-padding">
                 <form [formGroup]="formArticulo" (ngSubmit)="guardar()" mode="ios">
                     <ion-item>
-                        <ion-select aria-label="Fruit" formControlName="cat_articulo" interface="primary" label="Categoria Producto" labelPlacement="floating" placeholder="Select Categoría">
-                            <ion-select-option *ngFor="let item of _listCategoria" [value]="item.cat_articulo">{{ item.descripcion }}
+                        <ion-select aria-label="Fruit" formControlName="cod_bodega" interface="primary" label="Bodegas" labelPlacement="floating" placeholder="Select Bodega">
+                            <ion-select-option *ngFor="let item of _listBodega" [value]="item.cod_bodega">{{ item.nombre }}
                             </ion-select-option>
                         </ion-select>
                     </ion-item>
@@ -64,7 +64,7 @@
 
                     </div>
                     <!--[disabled]="!FormArticulo.valid" -->
-                    <ion-button expand="block" color="primary" type="submit">
+                    <ion-button [disabled]="!formArticulo.valid || this._listDetalle.length == 0" expand="block" color="primary" type="submit">
                         Guardar
                     </ion-button>
                 </form>

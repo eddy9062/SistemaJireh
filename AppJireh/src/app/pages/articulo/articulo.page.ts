@@ -96,7 +96,7 @@ export class ArticuloPage implements OnInit {
 
   RemoveItem(empresa: number, cat: number, cod: string) {
     this._listArticulo.forEach((value, index) => {
-      if (value.cod_empresa == empresa && value.cat_articulo == cat && value.cod_articulo == cod)
+      if (value.cod_empresa == empresa && value.cod_bodega == cat && value.cod_articulo == cod)
         this._listArticulo.splice(index, 1);
     });
   }
@@ -144,7 +144,7 @@ export class ArticuloPage implements OnInit {
   async onUpdate(item?: ArticuloModel) {
     //console.table(item)
     const data = {
-      cat_articulo: item?.cat_articulo,
+      cod_bodega: item?.cod_bodega,
       cod_articulo: item?.cod_articulo,
       descripcion: item?.descripcion,
       obs: item?.obs
@@ -168,7 +168,7 @@ export class ArticuloPage implements OnInit {
     this._articuloService.deleteArticulo(item)).subscribe({
       next: (response) => {
         this.ionList?.closeSlidingItems();
-        this.RemoveItem(item.cod_empresa, item.cat_articulo,item.cod_articulo);
+        this.RemoveItem(item.cod_empresa, item.cod_bodega,item.cod_articulo);
         console.log(response);
         this.toastService.show('Registro eliminado', {
           position: 'middle',

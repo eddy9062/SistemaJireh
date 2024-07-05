@@ -1,0 +1,119 @@
+<app-header>Articulos</app-header>
+
+<ion-content class="ion-padding">
+    <ion-grid class="ion-no-padding" color="primary">
+        <ion-row class="ion-justify-content-center">
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" class="ion-no-padding">
+                <form [formGroup]="formMov" mode="ios">
+                    <ion-item>
+                        <label><strong>Fecha: </strong> </label>
+                        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+                        <ion-modal [keepContentsMounted]="true">
+                            <ng-template>
+                                <ion-datetime formControlName="fecha" (ionChange)="changeDate($event)" #datePicker
+                                    id="datetime" presentation="date" [multiple]="false"></ion-datetime>
+                            </ng-template>
+                        </ion-modal>
+
+                    </ion-item>
+
+                    <ion-item>
+                        <label><strong>Tipo Operación:</strong></label>
+                        <ion-select aria-label="Fruit" formControlName="cod_tipo" interface="primary"
+                            labelPlacement="floating" placeholder="Select Tipo Operación">
+                            <ion-select-option *ngFor="let item of _listTipoOper" [value]="item.cod_tipo">{{
+                                item.des_tipo }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-list>
+                        <ion-item>
+                            <label *ngIf="formMov.value.cod_tipo == 1"><strong>Proveedor: </strong> </label>
+                            <label *ngIf="formMov.value.cod_tipo == 2"><strong>Cliente:</strong></label>
+                            <label *ngIf="formMov.value.cod_tipo == 3"><strong>Sucursal:</strong></label>
+                            <label>{{_destino}}</label>
+                            <ion-button slot="end" fill="outline" (click)="addCliente()">
+                                <ion-icon slot="start" name="search" aria-hidden="true"></ion-icon>
+                                Buscar
+                            </ion-button>
+                        </ion-item>
+                    </ion-list>
+                    <ion-item>
+                        <!-- <ion-searchbar #q mode="ios"  [(ngModel)]="_textoBuscar" placeholder="Buscar Artículo" animated inputmode="text" -->
+                        <ion-searchbar #q mode="ios" placeholder="Buscar Artículo" animated inputmode="text"
+                            (keyup.enter)="findProducto(q.value)" [debounce]="300">
+                        </ion-searchbar>
+                        <ion-button slot="end" fill="outline" (click)="findProducto(q.value)">
+                            <ion-icon slot="start" name="search" aria-hidden="true"></ion-icon>
+                               Buscar
+                        </ion-button>
+                        <!--                
+      <label><strong>Buscar Prodcuto:</strong></label>
+                        <ion-button slot="end" fill="outline" (click)="findProducto()">
+                            <ion-icon slot="start" name="search" aria-hidden="true"></ion-icon>
+                        Buscar
+                        </ion-button>
+                        -->
+                    </ion-item>
+                    <!--
+                    <ion-item>
+                        <ion-input type="text" fill="outline" formControlName="descripcion" label="Descripción de artículo" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" formControlName="obs" label="Observaciones" labelPlacement="floating" placeholder="Enter a valid nombre"></ion-input>
+                    </ion-item>
+-->
+                    <ion-button [disabled]="!formMov.valid" expand="block" color="primary" (click)="addDet()">
+                        add Detalle Producto
+                    </ion-button>
+                    <div class="mu-3">
+                        <!--
+                    <ion-grid [fixed]="true">
+                            <ion-row *ngFor="let item_det of formArticulo.get('det').controls; let i = index" [formGroup]="item_det">
+                                <ion-col>{{item_det.descripcion}}</ion-col>
+                                <ion-col>{{item_det.unidades}}</ion-col>
+                                <ion-col>{{item_det.precio_venta}}</ion-col>
+                                <ion-col>{{item_det.can_mayoreo}}</ion-col>
+                                <ion-col>{{item_det.precio_mayoreo}}</ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        -->
+                        <ion-grid [fixed]="true">
+                            <ion-row class="header-row">
+                                <ion-col size="5" class="ion-text-center">DESCRIPCION</ion-col>
+                                <ion-col size="1" class="ion-text-center">CANT.</ion-col>
+                                <ion-col size="2" class="ion-text-center">PRECIO</ion-col>
+                                <ion-col size="2" class="ion-text-center">MAYOREO</ion-col>
+                                <ion-col size="2" class="ion-text-center">PRECIO</ion-col>
+                            </ion-row>
+                            <ion-item-sliding *ngFor="let item of _listDetalle">
+                                <ion-item>
+                                    <ion-col size="5" class="ion-text-left">{{item.descripcion}}</ion-col>
+                                    <ion-col size="1" class="ion-text-center">{{item.cantidad}}</ion-col>
+                                    <ion-col size="2" class="ion-text-center">{{item.precio}}</ion-col>
+                                    <ion-col size="2" class="ion-text-center">{{item.precio}}</ion-col>
+                                    <ion-col size="2" class="ion-text-center">{{item.precio}}</ion-col>
+                                </ion-item>
+                                <ion-item-options>
+                                    <ion-item-option color="light" expandable="true" (click)="onUpdate(item)">
+                                        <ion-icon slot="start" style="color: rgba(9, 146, 5, 0.685); font-size: 26px"
+                                            name="create-outline"></ion-icon>
+                                    </ion-item-option>
+                                    <ion-item-option color="light" expandable="true" (click)="onDelete(item)">
+                                        <ion-icon slot="start" style="color: red; font-size: 24px"
+                                            name="trash-sharp"></ion-icon>
+                                    </ion-item-option>
+                                </ion-item-options>
+                            </ion-item-sliding>
+                        </ion-grid>
+
+                    </div>
+                    <!--[disabled]="!FormArticulo.valid" -->
+                    <ion-button (click)="guardar()" expand="block" color="primary" type="botton">
+                        Guardar
+                    </ion-button>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

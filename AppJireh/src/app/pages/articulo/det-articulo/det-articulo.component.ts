@@ -35,14 +35,14 @@ export class DetArticuloComponent  implements OnInit {
     console.log(this.receivedData)
 
     this.FormDetArticulo = this.fb.group({
-        cat_articulo: [this.receivedData.cat_articulo, Validators.required],
+        cod_bodega: [this.receivedData.cod_bodega, Validators.required],
         cod_articulo: [this.receivedData.cod_articulo, Validators.required],
-        cod_det_articulo: [this.receivedData.cod_det_articulo, Validators.required],
+        cod_det_articulo: [this.receivedData.cod_det_articulo],
         descripcion: [this.receivedData.descripcion, Validators.required],
         precio_venta: [this.receivedData.precio_venta, Validators.required],
         unidades: [this.receivedData.unidades, Validators.required],
-        precio_mayoreo: [this.receivedData.precio_mayoreo, Validators.required],
-        cant_mayoreo: [this.receivedData.cant_mayoreo, Validators.required],
+        precio_mayoreo: [this.receivedData.precio_mayoreo],
+        cant_mayoreo: [this.receivedData.cant_mayoreo],
     });
     
   }
@@ -68,14 +68,14 @@ export class DetArticuloComponent  implements OnInit {
     if (this.navParams.get('item')) {
       console.log(this.navParams.get('item'))
       this.FormDetArticulo = await this.fb.group({
-        cat_articulo: [this.receivedData.cat_articulo, Validators.required],
+        cod_bodega: [this.receivedData.cod_bodega, Validators.required],
         cod_articulo: [this.receivedData.cod_articulo, Validators.required],
-        cod_det_articulo: [this.receivedData.cod_det_articulo, Validators.required],
+        cod_det_articulo: [this.receivedData.cod_det_articulo],
         descripcion: [this.receivedData.descripcion, Validators.required],
         precio_venta: [this.receivedData.precio_venta, Validators.required],
         unidades: [this.receivedData.unidades, Validators.required],
-        precio_mayoreo: [this.receivedData.precio_mayoreo, Validators.required],
-        cant_mayoreo: [this.receivedData.cant_mayoreo, Validators.required],
+        precio_mayoreo: [this.receivedData.precio_mayoreo],
+        cant_mayoreo: [this.receivedData.cant_mayoreo],
       });
     }
   }
@@ -89,7 +89,8 @@ export class DetArticuloComponent  implements OnInit {
   }
 
   async add() {
-    //console.log(this.FormDetArticulo.value)
+    console.log(this.FormDetArticulo.value)
+    console.log(this.FormDetArticulo)
     //console.log(this.tipoReg)
 
     if (this.tipoReg == 1) {

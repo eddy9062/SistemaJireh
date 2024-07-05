@@ -87,4 +87,26 @@ export class ArticuloService {
    });
   }
 
+  deleteDetArticulo(data: any): Observable<any> {
+    const item = {
+      cod_bodega: data.cod_bodega,
+      cod_articulo: data.cod_articulo,
+      cod_det_articulo: data.cod_det_articulo
+    }
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${this._token}`);
+    return this._http.delete(this.url + 'det_articulo', {
+      headers: headers,
+      body: item
+   });
+  }
+// Para Movimientos
+  getArticuloMov(_data: any): Observable<any> {
+    console.log(_data)
+    let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${this._token}`);
+    return this._http.post(this.url + 'lstarticuloMov',_data, { headers: headers });
+  }
+
+
 }

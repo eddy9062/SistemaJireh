@@ -9,6 +9,7 @@ import catproductoRouter from './routes/CatProducto.routes.js'
 import articuloRouter from './routes/articulo.routes.js'
 import tareaRouter from './routes/tarea.routes.js'
 import tipOperaRouter from './routes/tipOperacion.js'
+import movRouter from './routes/mov.route.js'
 
 
 //Config Server
@@ -25,6 +26,7 @@ app.use('/api', bodegaRouter);
 app.use('/api', tipOperaRouter);
 app.use('/api', catproductoRouter);
 app.use('/api', articuloRouter);
+app.use('/api', movRouter);
 
 //Tareas
 app.use('/api', tareaRouter);

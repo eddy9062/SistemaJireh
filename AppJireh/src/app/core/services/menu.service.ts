@@ -43,6 +43,12 @@ export class MenuService {
       title: 'Productos',
       url: '/articulos',
       roles: ['ADMIN']
+    },
+    {
+      icono: 'cash-outline',
+      title: 'Ventas',
+      url: '/venta',
+      roles: ['ADMIN']
     }
     
   ]

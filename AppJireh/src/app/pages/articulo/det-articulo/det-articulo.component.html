@@ -40,7 +40,7 @@
                 </ion-item>
 
                 <!--[disabled]="!FormDetArticulo.valid" -->
-                <ion-button expand="block" color="primary" type="submit">
+                <ion-button [disabled]="!FormDetArticulo.valid" expand="block" color="primary" type="submit">
                     add
                 </ion-button>
             </form>

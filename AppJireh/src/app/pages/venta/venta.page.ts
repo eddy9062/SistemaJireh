@@ -1,55 +1,51 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-} from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  IonList,
-  IonicModule,
-  ModalController,
-  NavParams,
-} from '@ionic/angular';
-import { HeaderComponent } from 'src/app/component/header/header.component';
-import { FiltroPipe } from 'src/app/component/pipes/filtro.pipe';
-import { ArticuloService } from 'src/app/core/services/articulo.service';
-import { CategoriaService } from 'src/app/core/services/categoria.service';
-import { ArticuloModel } from 'src/app/core/services/models/ArticuloModel';
-import { CategoriaModel } from 'src/app/core/services/models/CategoriaModel';
-import { ToastService } from 'src/app/core/services/utils/toast.service';
-import { DetArticuloComponent } from '../det-articulo/det-articulo.component';
+import { CommonModule } from '@angular/common';
+import {FormsModule,ReactiveFormsModule,FormGroup,FormBuilder,Validators,} from '@angular/forms';
+import { IonList, IonicModule, ModalController } from '@ionic/angular';
+import { DetVentaComponent } from './det-venta/det-venta.component';
+import { MovModel } from 'src/app/core/services/models/MovModel';
+import { DetMovModel } from 'src/app/core/services/models/DetMovModel';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DetArticuloModel } from 'src/app/core/services/models/DetArticuloModel';
+import { ToastService } from 'src/app/core/services/utils/toast.service';
+
+// Importar moment con el formato de exportación adecuado
+import * as moment from 'moment';
+import { HeaderComponent } from "../../component/header/header.component";
+import { FiltroPipe } from 'src/app/component/pipes/filtro.pipe';
+import { TipoOperaModel } from 'src/app/core/services/models/TipoOperaModel';
 import { BodegaService } from 'src/app/core/services/bodega.service';
-import { BodegaModel } from 'src/app/core/services/models/BodegaModels';
+import { ClientePage } from '../cliente/cliente.page';
+import { MovproducComponent } from './movproduc/movproduc.component';
 
 @Component({
-  selector: 'app-articulo',
-  templateUrl: './articulo.component.html',
-  styleUrls: ['./articulo.component.scss'],
-  standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    HeaderComponent,
-    ReactiveFormsModule,
-    FiltroPipe,
-  ],
+    selector: 'app-venta',
+    templateUrl: './venta.page.html',
+    styleUrls: ['./venta.page.scss'],
+    standalone: true,
+    imports: [IonicModule,
+      CommonModule,
+      FormsModule,
+      HeaderComponent,
+      ReactiveFormsModule,
+      FiltroPipe,]
 })
-export class ArticuloComponent implements OnInit {
-  item?: ArticuloModel;
+export class VentaPage implements OnInit {
+  item?: MovModel;
   titulo: string | undefined;
+  _textoBuscar: string = '';
 
-  formArticulo: FormGroup;
+  
+  fecha: string = moment().zone('GMT-6').format('YYYY-MM-DD').toString();
 
-  public _listBodega: BodegaModel[] = [];
-  public _dataProducto!: ArticuloModel;
-  public _listDetalle: DetArticuloModel[] = [];
+  formMov: FormGroup;
+
+  public _listTipoOper: TipoOperaModel[] = [];
+  public _dataProducto!: MovModel;
+  public _listDetalle: DetMovModel[] = [];
+
+
+public _destino: string | undefined;
 
   public title: string | undefined;
   public tipoReg: number | undefined;
@@ -60,50 +56,104 @@ export class ArticuloComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private _articuloService: ArticuloService,
+//    private _articuloService: ArticuloService,
     private _bodegaService: BodegaService,
-    private modalCtrl: ModalController,
-    private router: Router
+    private modalCtrl: ModalController
   ) {
-    this.formArticulo = this.fb.group({
-      cod_bodega: ['', Validators.required],
-      cod_articulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      obs: ['', Validators.required],
-      //det: this.fb.array([])
+    this.formMov = this.fb.group({
+        cod_empresa: [1, Validators.required],
+        cod_tipo: [1, Validators.required],
+        id_operacion: ['', Validators.required],
+        fecha: [new Date(this.fecha).toISOString(), Validators.required],
+        nit: ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: Params) => {
-      this.item = params as unknown as ArticuloModel;
+  /*  this.route.queryParams.subscribe((params: Params) => {
+      this.item = params as unknown as MovModel;
     });
 
     if (this.item?.cod_articulo) {
-      this.getDetArticulo(this.item.cod_bodega, this.item.cod_articulo);
+      this.getDetArticulo(this.item.cat_articulo, this.item.cod_articulo);
       console.log('Actualizar')
     } else {
       console.log('Nuevo')
     }
-
+*/
     this.creaEncabezado();
-    this.getBodega();
+    this.getTipoOperacion();
   }
+
+  onSearch(event: any) {
+    console.log(event)
+    this._textoBuscar = event;
+  }
+
+  async addCliente() {
+    const title = 1;
+
+    //console.log(empresa);
+    const modal = await this.modalCtrl.create({
+      component: ClientePage,
+      componentProps: {
+        title
+      },
+    });
+    modal.onDidDismiss().then((item) => {
+      this.ionList?.closeSlidingItems();
+           
+      if (item.data) {
+        console.log(item.data.nombre)
+        this._destino = item.data.nombre;
+        //this._listDetalle.push(item.data);
+      }
+
+    });
+    await modal.present();
+  }
+
+  async findProducto(txtSearch: any) {
+    const title = 1;
+
+    //console.log(empresa);
+    const modal = await this.modalCtrl.create({
+      component: MovproducComponent,
+      componentProps: {
+        title,
+        txtSearch
+      },
+    });
+    modal.onDidDismiss().then((item) => {
+      this.ionList?.closeSlidingItems();
+           
+      if (item.data) {
+        console.log(item.data)
+        //this._destino = item.data.nombre;
+        //this._listDetalle.push(item.data);
+      }
+
+    });
+    await modal.present();
+  }
+
 
   async creaEncabezado() {
     if (this.item) {
-      this.formArticulo = this.fb.group({
-        cod_bodega: [Number(this.item.cod_bodega), Validators.required],
-        cod_articulo: [this.item.cod_articulo, Validators.required],
-        descripcion: [this.item.descripcion, Validators.required],
-        obs: [this.item.obs],
+      this.formMov = this.fb.group({
+        cod_empresa: [Number(this.item.cod_empresa), Validators.required],
+        cod_tipo: [this.item.tipo_operacion, Validators.required],
+        id_operacion: [this.item.id_operacion, Validators.required],
+        fecha: [this.item.fecha, Validators.required],
+        nit: [this.item.nit, Validators.required],
       });
     }
   }
 
+
   creaDet() {
     return this.fb.control({
-      cod_bodega: ['', Validators.required],
+      cat_articulo: ['', Validators.required],
       cod_articulo: ['', Validators.required],
       cod_det_articulo: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -114,10 +164,20 @@ export class ArticuloComponent implements OnInit {
     });
   }
 
+  public changeDate(ev: any): void {
+    try {
+      this.fecha = ev.detail.value;
+      //console.log(this.fecha);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   async addDet() {
     const title = 1;
-    const item = {
-      cod_bodega: this.formArticulo.value.cod_bodega,
+ /*   const item = {
+      cat_articulo: this.formArticulo.value.cat_articulo,
       cod_articulo: this.formArticulo.value.cod_articulo,
       descripcion: this.formArticulo.value.descripcion
     };
@@ -139,18 +199,18 @@ export class ArticuloComponent implements OnInit {
       }
 
     });
-    await modal.present();
+    await modal.present();*/
   }
-
+/*
   get detControl() {
     return this.formArticulo.get('det') as FormArray;
-  }
+  }*/
 
-  public getBodega() {
-    this._bodegaService.getBodegas().subscribe({
+  public getTipoOperacion() {
+    this._bodegaService.getTTipOperaciones().subscribe({
       next: (response) => {
         console.table(response);
-        this._listBodega = response as unknown as Array<BodegaModel>;
+        this._listTipoOper = response as unknown as Array<TipoOperaModel>;
       },
       error: (err) => {
         this.toastService.show(`Ocurrio un error ${err.message} `, {
@@ -162,7 +222,7 @@ export class ArticuloComponent implements OnInit {
   }
 
   public getArticulo(data: any) {
-    this._articuloService.getArticulo(data).subscribe({
+    /*this._articuloService.getArticulo(data).subscribe({
       next: (response) => {
         console.table(response);
         this.item = response as unknown as ArticuloModel;
@@ -173,12 +233,12 @@ export class ArticuloComponent implements OnInit {
           duration: 3000,
         });
       },
-    });
+    });*/
   }
-
-  public getDetArticulo(bodega: number, cod: string) {
+/*
+  public getDetArticulo(cat: number, cod: string) {
     const data = {
-      cod_bodega: bodega,
+      cat_articulo: cat,
       cod_articulo: cod
     }
 
@@ -194,26 +254,20 @@ export class ArticuloComponent implements OnInit {
       },
     });
   }
+*/
+
 
   async guardar() {
-    console.log(this.formArticulo)
-    console.log(this._listDetalle.length)
-    
-    if (this.formArticulo.valid && this._listDetalle.length > 0) {
-      this._dataProducto = this.formArticulo.value;
+    if (this.formMov.valid) {
+      this._dataProducto = this.formMov.value;
       this._dataProducto.det = this._listDetalle;
-      this.crearRegistro(this._dataProducto);
-    }else{
-      this.toastService.show('Formulario invalido, favor revisar', {
-        position: 'bottom',
-        duration: 4000,
-      });
+  //    this.crearRegistro(this._dataProducto);
     }
 
-    //console.log(this._dataProducto);
+    console.log(this._dataProducto);
 
   }
-
+/*
   async actualizarRegistro(data: any) {
     this._articuloService.editarArticulo(data).subscribe({
       next: (response) => {
@@ -247,6 +301,7 @@ export class ArticuloComponent implements OnInit {
       },
     });
   }
+  */
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
@@ -262,7 +317,7 @@ export class ArticuloComponent implements OnInit {
     const bodega = Number(item?.cod_bodega);
     const cod = String(item?.cod_articulo);
     const modal = await this.modalCtrl.create({
-      component: DetArticuloComponent,
+      component: DetVentaComponent,
       componentProps: {
         item,
         title,
@@ -274,7 +329,7 @@ export class ArticuloComponent implements OnInit {
       this.ionList?.closeSlidingItems();
       //this.getDetArticulo(item.);
       if (item_u.data) {
-        this.getDetArticulo(bodega,cod);
+        //this.getDetArticulo(cat,cod);
         this.toastService.show('Registro Acutalizado', {
           position: 'middle',
           duration: 2000,
@@ -287,26 +342,6 @@ export class ArticuloComponent implements OnInit {
 
   onDelete(item: any){
     console.log(item)
-    const bodega = Number(item?.cod_bodega);
-    const cod = String(item?.cod_articulo);
-    this._articuloService.deleteDetArticulo(item).subscribe({
-      next: (response) => {
-        console.log(response)
-        if (response == 1 ) {
-          this.getDetArticulo(bodega,cod);
-          this.toastService.show('Registro Eliminado', {
-            position: 'middle',
-            duration: 2000,
-          });
-        }
-      },
-      error: (err) => {
-        this.toastService.show(`Ocurrio un error ${err.error.message} `, {
-          position: 'bottom',
-          duration: 3000,
-        });
-      },
-    });
   }
 
 }

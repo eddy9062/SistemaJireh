@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonList, IonicModule, ModalController } from '@ionic/angular';
+import { IonList, IonicModule, ModalController, NavParams } from '@ionic/angular';
 import { HeaderComponent } from 'src/app/component/header/header.component';
 import { Router } from '@angular/router';
 import { ClienteModel } from 'src/app/core/services/models/ClienteModel';
@@ -37,6 +37,7 @@ export class ClientePage implements OnInit {
     private sessionService: SessionService,
     private _clienteService: ClienteService,
     private loadingService: LoadingService,
+    private navParams: NavParams,
     private router: Router,
     private toastService: ToastService,
     private modalCtrl: ModalController
@@ -160,5 +161,10 @@ export class ClientePage implements OnInit {
         });
       },
     });
+  }
+  movCliente(item: ClienteModel){
+    if (Number(this.navParams.get('title')) == 1) {
+      this.modalCtrl.dismiss(item, 'confirm');
+    } 
   }
 }
